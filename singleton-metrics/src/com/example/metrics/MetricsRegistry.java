@@ -1,5 +1,6 @@
 package com.example.metrics;
 
+import java.io.ObjectStreamException;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Collections;
@@ -31,6 +32,13 @@ public class MetricsRegistry implements Serializable {
     // BROKEN: should be private and should prevent second construction
     public MetricsRegistry() {
         // intentionally empty
+        if (Holder.INSTANCE != null) {
+            throw new IllegalStateException("Singleton already initialized");
+        }
+    }
+
+    private static class Holder {
+        private static final MetricsRegistry INSTANCE = new MetricsRegistry();
     }
 
     // BROKEN: racy lazy init; two threads can create two instances
@@ -58,4 +66,8 @@ public class MetricsRegistry implements Serializable {
     }
 
     // TODO: implement readResolve() to preserve singleton on deserialization
+    @Serial
+    private Object readResolve() throws ObjectStreamException {
+        return getInstance();
+    }
 }
