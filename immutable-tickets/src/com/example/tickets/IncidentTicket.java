@@ -22,7 +22,6 @@ public class IncidentTicket {
     private String id;
     private String reporterEmail;
     private String title;
-
     private String description;
     private String priority;       // LOW, MEDIUM, HIGH, CRITICAL
     private List<String> tags;     // mutable leak
