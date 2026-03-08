@@ -9,7 +9,7 @@ package com.example.reports;
  * TODO (student):
  * - Convert this into the RealSubject behind a Proxy, or replace with RealReport.
  */
-public class ReportFile {
+public class ReportFile implements Report {
 
     private final String reportId;
     private final String title;
@@ -21,6 +21,7 @@ public class ReportFile {
         this.classification = classification;
     }
 
+    @Override
     public void display(User user) {
         String content = loadFromDisk();
         System.out.println("REPORT -> id=" + reportId
@@ -34,5 +35,9 @@ public class ReportFile {
         System.out.println("[disk] loading report " + reportId + " ...");
         try { Thread.sleep(120); } catch (InterruptedException e) { Thread.currentThread().interrupt(); }
         return "Internal report body for " + title;
+    }
+
+    public String getClassification() {
+        return classification;
     }
 }
