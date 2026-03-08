@@ -19,13 +19,13 @@ public class MapMarker {
     private final MarkerStyle style;
 
     public MapMarker(double lat, double lng, String label,
-                     String shape, String color, int size, boolean filled) {
+                     String shape, String color, int size, boolean filled, MarkerStyleFactory factory) {
         this.lat = lat;
         this.lng = lng;
         this.label = label;
 
-        // BROKEN: per-marker allocation
-        this.style = new MarkerStyle(shape, color, size, filled);
+        // BROKEN: per-marker allocation - obtain shared style from factory instead of creating new
+        this.style = factory.get(shape, color, size, filled);
     }
 
     public double getLat() { return lat; }
